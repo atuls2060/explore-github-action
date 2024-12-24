@@ -1,7 +1,7 @@
 name: Deploy Pull Request
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       pr_number:
         description: 'Pull Request Number'

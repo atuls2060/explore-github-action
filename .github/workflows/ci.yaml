@@ -1,4 +1,4 @@
-name: CI Workflow
+name: CI Workflow (Test Logs and Trigger Deploy)
 
 on:
   push:
@@ -19,17 +19,14 @@ jobs:
       - name: Log input information for testing
         run: |
           echo "Testing CI Workflow"
-          echo "PR Number: 123"
-          echo "Branch Name: feature/test-branch"
-          echo "PR State: open"
+          echo "PR Number: ${{ github.event.pull_request.number }}"
+          echo "Branch Name: ${{ github.event.pull_request.head.ref }}"
+          echo "PR State: ${{ github.event.pull_request.state }}"
           echo "Logging some information..."
 
       - name: Trigger Deploy Pull Request Workflow
-        uses: peter-evans/workflow-dispatch@v1
+        uses: ./.github/workflows/deploy-pr.yml  
         with:
-          workflow: 'deploy-pr.yml'  
-          ref: 'refs/heads/main'
-          inputs: |
-            pr_number: 123
-            branch_name: feature/test-branch
-            pr_state: open
+          pr_number: ${{ github.event.pull_request.number }}
+          branch_name: ${{ github.event.pull_request.head.ref }}
+          pr_state: ${{ github.event.pull_request.state }}
