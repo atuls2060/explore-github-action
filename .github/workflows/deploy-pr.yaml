@@ -21,25 +21,5 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up environment name
-        id: env
-        run: |
-          PR_NUMBER="${{ github.event.inputs.pr_number }}"
-          BRANCH_NAME="${{ github.event.inputs.branch_name }}"
-          ENV_NAME="pr-${PR_NUMBER}-${BRANCH_NAME}"
-          echo "The unique environment name is: $ENV_NAME"
-          echo "::set-output name=env_name::$ENV_NAME"
-
-      - name: Log Deploy to Environment
-        run: |
-          echo "Deploying to environment: ${{ steps.env.outputs.env_name }}"
-
-      - name: Log Clean up Environment (if PR is closed)
-        if: ${{ github.event.inputs.pr_state == 'closed' }}
-        run: |
-          echo "Cleaning up environment: ${{ steps.env.outputs.env_name }}"
-          # Simulate environment cleanup (without actual delete command)
-          echo "Environment cleanup complete for ${{ steps.env.outputs.env_name }}"
+     - name: Log input information for testing
+       run: echo "Testing CI Workflow"

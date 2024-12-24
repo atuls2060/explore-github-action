@@ -3,10 +3,10 @@ name: CI Workflow (Test Logs and Trigger Deploy)
 on:
   push:
     branches:
-      - main
+      - main 
   pull_request:
     branches:
-      - main
+      - main 
 
 jobs:
   trigger_deploy:
@@ -25,11 +25,8 @@ jobs:
           echo "Logging some information..."
 
       - name: Trigger Deploy Pull Request Workflow
-        uses: peter-evans/workflow-dispatch@v1
+        uses: ./.github/workflows/deploy-pr.yml  
         with:
-          workflow: 'deploy-pr.yml'  # The name of the workflow you want to trigger
-          ref: 'refs/heads/main'  # The branch to trigger the workflow on
-          inputs: | 
-            pr_number: ${{ github.event.pull_request.number }}
-            branch_name: ${{ github.event.pull_request.head.ref }}
-            pr_state: ${{ github.event.pull_request.state }}
+          pr_number: ${{ github.event.pull_request.number }}
+          branch_name: ${{ github.event.pull_request.head.ref }}
+          pr_state: ${{ github.event.pull_request.state }}
