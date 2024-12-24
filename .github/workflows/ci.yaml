@@ -1,0 +1,35 @@
+name: CI Workflow
+
+on:
+  push:
+    branches:
+      - main 
+  pull_request:
+    branches:
+      - main 
+
+jobs:
+  trigger_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Log input information for testing
+        run: |
+          echo "Testing CI Workflow"
+          echo "PR Number: 123"
+          echo "Branch Name: feature/test-branch"
+          echo "PR State: open"
+          echo "Logging some information..."
+
+      - name: Trigger Deploy Pull Request Workflow
+        uses: peter-evans/workflow-dispatch@v1
+        with:
+          workflow: 'deploy-pr.yml'  
+          ref: 'refs/heads/main'
+          inputs: |
+            pr_number: 123
+            branch_name: feature/test-branch
+            pr_state: open
