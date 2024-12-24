@@ -29,7 +29,7 @@ jobs:
           echo "Logging some information..."
 
       - name: Trigger Deploy Pull Request Workflow
-        uses: ./.github/workflows/deploy-pr.yml  # Reusable workflow is called here
+        uses: ./.github/workflows/deploy-pr.yml  # Correctly calling the reusable workflow
         with:
           pr_number: ${{ github.event.pull_request.number }}
           branch_name: ${{ github.event.pull_request.head.ref }}
