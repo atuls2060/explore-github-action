@@ -3,10 +3,10 @@ name: CI Workflow (Test Logs and Trigger Deploy)
 on:
   push:
     branches:
-      - main 
+      - main
   pull_request:
     branches:
-      - main 
+      - main
 
 jobs:
   trigger_deploy:
@@ -25,7 +25,7 @@ jobs:
           echo "Logging some information..."
 
       - name: Trigger Deploy Pull Request Workflow
-        uses: ./.github/workflows/deploy-pr.yml  
+        uses: ./.github/workflows/deploy-pr.yml
         with:
           pr_number: ${{ github.event.pull_request.number }}
           branch_name: ${{ github.event.pull_request.head.ref }}
