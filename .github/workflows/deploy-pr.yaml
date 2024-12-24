@@ -2,19 +2,6 @@ name: Deploy Pull Request
 
 on:
   workflow_call:
-    inputs:
-      pr_number:
-        description: 'Pull Request Number'
-        required: true
-        type: number
-      branch_name:
-        description: 'Source Branch Name'
-        required: true
-        type: string
-      pr_state:
-        description: 'State of the PR (open or closed)'
-        required: true
-        type: string
 
 jobs:
   deploy:
