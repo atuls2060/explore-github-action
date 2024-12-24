@@ -30,7 +30,4 @@ jobs:
 
       - name: Trigger Deploy Pull Request Workflow
         uses: ./.github/workflows/deploy-pr.yml  # Correctly calling the reusable workflow
-        with:
-          pr_number: ${{ github.event.pull_request.number }}
-          branch_name: ${{ github.event.pull_request.head.ref }}
-          pr_state: ${{ github.event.pull_request.state }}
+     
