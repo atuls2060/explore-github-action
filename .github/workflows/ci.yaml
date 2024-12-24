@@ -30,4 +30,11 @@ jobs:
 
       - name: Trigger Deploy Pull Request Workflow
         uses: ./.github/workflows/deploy-pr.yml  # Correctly calling the reusable workflow
+
+
+  functional-test:
+        name: Functional Test
+        needs: [ trigger_deploy ]
+        uses: ./.github/workflows/deploy-pr.yaml
+  
      
