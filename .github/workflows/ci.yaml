@@ -27,3 +27,10 @@ jobs:
             echo "This is a push event, no PR context available."
           fi
           echo "Logging some information..."
+
+      - name: Trigger Deploy Pull Request Workflow
+        uses: ./.github/workflows/deploy-pr.yml  # Reusable workflow is called here
+        with:
+          pr_number: ${{ github.event.pull_request.number }}
+          branch_name: ${{ github.event.pull_request.head.ref }}
+          pr_state: ${{ github.event.pull_request.state }}
