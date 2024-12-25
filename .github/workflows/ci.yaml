@@ -1,12 +1,13 @@
-name: CI Workflow (Test Logs and Trigger Deploy)
+name: CI Workflow
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
-    branches:
-      - main
+    types: [opened, synchronize]
+
+concurrency:
+  group: ${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
 
 jobs:
   ci:
@@ -18,18 +19,14 @@ jobs:
 
       - name: Log input information for testing
         run: |
-          echo "Testing CI Workflow"
-          if [ "${{ github.event.pull_request }}" ]; then
-            echo "PR Number: ${{ github.event.pull_request.number }}"
-            echo "Branch Name: ${{ github.event.pull_request.head.ref }}"
-            echo "PR State: ${{ github.event.pull_request.state }}"
-          else
-            echo "This is a push event, no PR context available."
-          fi
+          echo "PR Number: ${{ github.event.pull_request.number }}"
+          echo "Branch Name: ${{ github.event.pull_request.head.ref }}"
+          echo "PR State: ${{ github.event.pull_request.state }}"
           echo "Logging some information..."
 
   deploy-pr:
     uses: ./.github/workflows/deploy-pr.yaml
+    needs: [ci]
     with:
       pr_number: 1234  # Hardcoded PR number
       branch_name: feature/test-branch  # Hardcoded branch name
