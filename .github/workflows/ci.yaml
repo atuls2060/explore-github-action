@@ -21,13 +21,11 @@ jobs:
         run: |
           echo "PR Number: ${{ github.event.pull_request.number }}"
           echo "Branch Name: ${{ github.event.pull_request.head.ref }}"
-          echo "PR State: ${{ github.event.pull_request.state }}"
           echo "Logging some information..."
 
   deploy-pr:
     uses: ./.github/workflows/deploy-pr.yaml
     needs: [ci]
     with:
-      pr_number: 1234  # Hardcoded PR number
-      branch_name: feature/test-branch  # Hardcoded branch name
-      pr_state: open  # Hardcoded PR state
+      pr_number: ${{ github.event.pull_request.number }}
+      branch_name: ${{ github.event.pull_request.head.ref }}
