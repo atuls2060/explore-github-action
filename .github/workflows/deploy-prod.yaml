@@ -1,4 +1,4 @@
-name: Deploy Pull Request
+name: Deploy to Prod
 
 on:
   workflow_call:
@@ -7,22 +7,22 @@ on:
         description: 'Pull Request Number'
         required: true
         type: number
-      branch_name:
-        description: 'Source Branch Name'
-        required: true
-        type: string
 
 jobs:
-  deploy-pr:
+  deploy-prod:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up environment name
+      - name: Set up environment name # for cleaning up pr environment
         id: env
         run: echo "env_name=pr-${{inputs.pr_number}}" >> $GITHUB_ENV
+
+      - name: Delete Pr environment
+        run: |
+          echo "Deleted : ${{ env.env_name }}.atulsingh.dev"
 
       - name: Deploy to Environment
         run: |
