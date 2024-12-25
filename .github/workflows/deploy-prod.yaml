@@ -26,4 +26,4 @@ jobs:
 
       - name: Deploy to Environment
         run: |
-          echo "Deploying to environment: ${{ env.env_name }}.atulsingh.dev"
+          echo "Deploying to environment: www.atulsingh.dev"
