@@ -28,10 +28,6 @@ jobs:
           fi
           echo "Logging some information..."
 
-      - name: Trigger Deploy Pull Request Workflow
-        uses: ./.github/workflows/deploy-pr.yml  # Correctly calling the reusable workflow
-
-
   functional-test:
         name: Functional Test
         needs: [ trigger_deploy ]
