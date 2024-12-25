@@ -32,5 +32,9 @@ jobs:
         name: Deploy Pull Request
         needs: [ trigger_deploy ]
         uses: ./.github/workflows/deploy-pr.yaml
+        with:
+          pr_number: ${{ github.event.pull_request.number }}
+          branch_name: ${{ github.event.pull_request.head.ref }}
+          pr_state: ${{ github.event.pull_request.state }}
   
      
