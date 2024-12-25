@@ -24,6 +24,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Debug Inputs (Print passed inputs)
+        run: |
+          echo "Received PR Number: ${{ github.event.inputs.pr_number }}"
+          echo "Received Branch Name: ${{ github.event.inputs.branch_name }}"
+          echo "Received PR State: ${{ github.event.inputs.pr_state }}"
+
       - name: Set up environment name
         id: env
         run: |
@@ -31,15 +37,15 @@ jobs:
           BRANCH_NAME="${{ github.event.inputs.branch_name }}"
           ENV_NAME="pr-${PR_NUMBER}-${BRANCH_NAME}"
           echo "The unique environment name is: $ENV_NAME"
-          echo "::set-output name=env_name::$ENV_NAME"
+          echo "env_name=$ENV_NAME" >> $GITHUB_ENV  # Set the env_name output as an environment variable
 
       - name: Log Deploy to Environment
         run: |
-          echo "Deploying to environment: ${{ steps.env.outputs.env_name }}"
+          echo "Deploying to environment: ${{ env.env_name }}"
 
       - name: Log Clean up Environment (if PR is closed)
         if: ${{ github.event.inputs.pr_state == 'closed' }}
         run: |
-          echo "Cleaning up environment: ${{ steps.env.outputs.env_name }}"
+          echo "Cleaning up environment: ${{ env.env_name }}"
           # Simulate environment cleanup (without actual delete command)
-          echo "Environment cleanup complete for ${{ steps.env.outputs.env_name }}"
+          echo "Environment cleanup complete for ${{ env.env_name }}"
