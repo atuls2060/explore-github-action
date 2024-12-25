@@ -33,6 +33,6 @@ jobs:
     needs: [ci]
     uses: ./.github/workflows/deploy-pr.yaml
     with:
-      pr_number: ${{ github.event.pull_request.number }}
-      branch_name: ${{ github.event.pull_request.head.ref }}
-      pr_state: ${{ github.event.pull_request.state }}
+      pr_number: 1234
+      branch_name: feature/test-branch
+      pr_state: open
