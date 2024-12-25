@@ -26,15 +26,15 @@ jobs:
 
       - name: Debug Inputs (Print passed inputs)
         run: |
-          echo "Received PR Number: ${{ github.event.inputs.pr_number }}"
-          echo "Received Branch Name: ${{ github.event.inputs.branch_name }}"
-          echo "Received PR State: ${{ github.event.inputs.pr_state }}"
+          echo "Received PR Number: ${{inputs.pr_number }}"
+          echo "Received Branch Name: ${{inputs.branch_name }}"
+          echo "Received PR State: ${{inputs.pr_state }}"
 
       - name: Set up environment name
         id: env
         run: |
-          PR_NUMBER="${{ github.event.inputs.pr_number }}"
-          BRANCH_NAME="${{ github.event.inputs.branch_name }}"
+          PR_NUMBER="${{inputs.pr_number }}"
+          BRANCH_NAME="${{inputs.branch_name }}"
           ENV_NAME="pr-${PR_NUMBER}-${BRANCH_NAME}"
           echo "The unique environment name is: $ENV_NAME"
           echo "env_name=$ENV_NAME" >> $GITHUB_ENV  # Set the env_name output as an environment variable
@@ -44,7 +44,7 @@ jobs:
           echo "Deploying to environment: ${{ env.env_name }}"
 
       - name: Log Clean up Environment (if PR is closed)
-        if: ${{ github.event.inputs.pr_state == 'closed' }}
+        if: ${{inputs.pr_state == 'closed' }}
         run: |
           echo "Cleaning up environment: ${{ env.env_name }}"
           # Simulate environment cleanup (without actual delete command)
