@@ -1,4 +1,4 @@
-name: CD
+name: CD Workflow
 
 on:
   pull_request:
@@ -16,3 +16,9 @@ jobs:
 
       - name: Some CD JOBS
         run: echo "some CD Jobs information..."
+
+  deploy-prod:
+    uses: ./.github/workflows/deploy-prod.yaml
+    needs: [cd]
+    with:
+      pr_number: ${{ github.event.pull_request.number }}
