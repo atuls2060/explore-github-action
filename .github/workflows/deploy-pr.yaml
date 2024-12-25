@@ -25,7 +25,7 @@ jobs:
         run: |
           PR_NUMBER="${{inputs.pr_number }}"
           BRANCH_NAME="${{inputs.branch_name }}"
-          ENV_NAME="static-pages-${PR_NUMBER}"
+          ENV_NAME="pr-${PR_NUMBER}"
           echo "The unique environment name is: $ENV_NAME"
           echo "env_name=$ENV_NAME" >> $GITHUB_ENV
 
