@@ -29,10 +29,8 @@ jobs:
           echo "Logging some information..."
 
   deploy-pr:
-    name: Deploy Pull Request
-    needs: [ci]
     uses: ./.github/workflows/deploy-pr.yaml
     with:
-      pr_number: 1234
-      branch_name: feature/test-branch
-      pr_state: open
+      pr_number: 1234  # Hardcoded PR number
+      branch_name: feature/test-branch  # Hardcoded branch name
+      pr_state: open  # Hardcoded PR state
