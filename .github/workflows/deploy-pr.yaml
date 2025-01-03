@@ -31,7 +31,7 @@ jobs:
       - name: Create Environment
         id: create-env
         if: ${{ inputs.pr_state == 'open' }}
-        run: echo "creating environment"
+        run: echo "creating environment ${{inputs.pr_number}}"
 
       - name: Deploy to Environment
         run: |
