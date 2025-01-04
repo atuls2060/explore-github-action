@@ -50,7 +50,7 @@ jobs:
 
       - name: Read the single file in the folder
         run: |
-              FOLDER_PATH="/src/routes"
+              FOLDER_PATH="src/routes"
       
               # Find the single file in the folder
               FILE=$(ls "$FOLDER_PATH" | head -n 1)
