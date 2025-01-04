@@ -57,16 +57,19 @@ jobs:
         run: |
           # Compare the current PR branch with the main branch
           FILES=$(git diff --name-only origin/main..${{ github.head_ref }})
-          echo "Changed files: $FILES"
-           PATTERN="^src/routes"
+          PATTERN="^src/routes"
 
           # Filter the file names based on the pattern
           MATCHED_FILES=$(echo "$FILES" | grep -E "$PATTERN")
 
           if [ -z "$MATCHED_FILES" ]; then
-            echo "No files starting with 'src/routes' were found."
+            echo "MODIFIED_FILENAME=" >> $GITHUB_ENV  # Set empty variable
           else
-            echo "Files starting with 'src/routes': $MATCHED_FILES"
+            BASENAME=$(basename "$MATCHED_FILES" | sed 's/\(.*\)\..*/\1/' | sed 's/\./\//g')
+
+            echo "Original file name: $MATCHED_FILES"
+            echo "Modified file name: $BASENAME"
+            echo "MODIFIED_FILENAME=$BASENAME" >> $GITHUB_ENV
           fi
 
       - uses: actions/github-script@v7
