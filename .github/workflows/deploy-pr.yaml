@@ -94,3 +94,4 @@ jobs:
           body: |
            The testing environment is live! You can [view it here](https://${{ env.env_name }}.example22.com/${{ env.MODIFIED_FILENAME }}).
           reactions: hooray
+          edit-mode: replace
