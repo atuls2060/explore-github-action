@@ -59,7 +59,13 @@ jobs:
               if [ -z "$FILE" ]; then
                 echo "No file found in the folder."
               else
-                echo "Reading file: $FILE"
+                BASENAME=$(basename "$FILE" | sed 's/\./\//g')
+
+                echo "Original file name: $FILE"
+                echo "Modified file name: $BASENAME"
+
+                # Read the file
                 cat "$FOLDER_PATH/$FILE"
+                
               fi
               
