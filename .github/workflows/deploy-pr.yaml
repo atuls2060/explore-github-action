@@ -44,11 +44,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          ref: ${{ github.head_ref }}
-          fetch-depth: 1 
-        
-
+      
       - name: Fetch main branch
         run: |
           git fetch origin main
