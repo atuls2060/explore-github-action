@@ -62,14 +62,11 @@ jobs:
 
           # Filter the file names based on the pattern
           MATCHED_FILES=$(echo "$FILES" | grep -E "$PATTERN")
-
+          
           if [ -z "$MATCHED_FILES" ]; then
             echo "MODIFIED_FILENAME=" >> $GITHUB_ENV  # Set empty variable
           else
             BASENAME=$(basename "$MATCHED_FILES" | sed 's/\(.*\)\..*/\1/' | sed 's/\./\//g')
-
-            echo "Original file name: $MATCHED_FILES"
-            echo "Modified file name: $BASENAME"
             echo "MODIFIED_FILENAME=$BASENAME" >> $GITHUB_ENV
           fi
 
