@@ -56,7 +56,6 @@ jobs:
       - name: Get file differences
         run: |
           # Compare the current PR branch with the main branch
-          git diff --name-only origin/main..${{ github.head_ref }}
           FILES=$(git diff --name-only origin/main..${{ github.head_ref }})
           echo "Changed files: $FILES"
 
