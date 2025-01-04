@@ -38,9 +38,12 @@ jobs:
           echo "Deploying to environment:${{inputs.pr_state}} ${{ env.env_name }}.atulsingh.dev"
 
       - name: Add Testing link to PR Status
-        uses: actions/create-status@v1
+        uses: actions/github-script@v6
         with:
-          context: 'Deployment Status'
-          state: 'success'
-          description: 'Testing link'
-          target_url: 'https://${{ env.env_name }}.atulsingh.dev'
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '👋 Thanks for reporting!'
+            })
