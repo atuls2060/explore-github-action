@@ -27,7 +27,7 @@ jobs:
 
       - name: Set up environment name
         id: env
-        run: echo "env_name=pr-${{inputs.pr_number}}" >> $GITHUB_ENV
+        run: echo "env_name=sp-${{inputs.pr_number}}" >> $GITHUB_ENV
       
       - name: Create Environment
         id: create-env
@@ -37,19 +37,14 @@ jobs:
       - name: Deploy to Environment
         run: |
           echo "Deploying to environment:${{inputs.pr_state}} ${{ env.env_name }}.atulsingh.dev"
-
-      - name: Generate Deployment URL
-        id: set-url
-        run: echo "::set-output name=url::https://example.com/${{ env.env_name }}"
   
       - uses: actions/github-script@v7
         with:
           script: |
-            const url = "${{ steps.generate-url.outputs.url }}";
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `Your testing environment is live: [View here](https://example.com/${{ env.env_name }})`
+              body: `The testing environment is live! You can [view it here](https://static-pages-remix-${{env.env_name}}-stag.d11dev.com/)`
             })
               
