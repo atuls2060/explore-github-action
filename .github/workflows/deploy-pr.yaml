@@ -46,7 +46,7 @@ jobs:
         uses: tj-actions/changed-files@v45
         id: files
         with:
-          files: 'src/routes/**'  # Pattern to match files starting with 'src/routes'
+          files: 'campaigns'  # Pattern to match files starting with 'src/routes'
     
       - name: Replace . with / and set output variable
         run: |
