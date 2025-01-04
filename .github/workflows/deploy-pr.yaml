@@ -16,9 +16,6 @@ on:
           required: true
           type: string
 
-permissions:
-  pull-requests: write
-  contents: read
 
 jobs:
   deploy-pr:
@@ -45,16 +42,9 @@ jobs:
         id: set-url
         run: echo "::set-output name=url::https://example.com/${{ env.env_name }}"
   
-      - name: Post Deployment URL as Comment
-        uses: actions/github-script@v6
-        
+      - name: Create commit comment
+        uses: peter-evans/commit-comment@v2
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-              const url = "${{ steps.set-url.outputs.url }}";
-              github.rest.issues.createComment({
-                issue_number: context.payload.pull_request.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: `The deployment is live! You can [view it here](${url}). Copy this URL: \`${url}\`.`
-              });
+          body: |
+            Artifact uploaded to jfrog for service:${{ steps.set-url.outputs.url }}
+              
