@@ -16,6 +16,7 @@ on:
           required: true
           type: string
 
+
 jobs:
   deploy-pr:
     runs-on: ubuntu-latest
@@ -26,7 +27,7 @@ jobs:
 
       - name: Set up environment name
         id: env
-        run: echo "env_name=pr-${{inputs.pr_number}}" >> $GITHUB_ENV
+        run: echo "env_name=sp-${{inputs.pr_number}}" >> $GITHUB_ENV
       
       - name: Create Environment
         id: create-env
@@ -36,3 +37,35 @@ jobs:
       - name: Deploy to Environment
         run: |
           echo "Deploying to environment:${{inputs.pr_state}} ${{ env.env_name }}.atulsingh.dev"
+  
+      - name: Read the single file in the folder
+        id: read_file
+        run: |
+              FOLDER_PATH="src/routes"
+      
+              # Find the single file in the folder
+              FILE=$(ls "$FOLDER_PATH" | head -n 1)
+      
+              # Check if a file is found
+              if [ -z "$FILE" ]; then
+                echo "No file found in the folder."
+                echo "MODIFIED_FILENAME=" >> $GITHUB_ENV  # Set empty variable
+              else
+                # Remove the extension and replace '.' with '/'
+                BASENAME=$(basename "$FILE" | sed 's/\(.*\)\..*/\1/' | sed 's/\./\//g')
+
+                echo "Original file name: $FILE"
+                echo "Modified file name: $BASENAME"   
+                echo "MODIFIED_FILENAME=$BASENAME" >> $GITHUB_ENV         
+    
+              fi
+      - uses: actions/github-script@v7
+        with:
+         script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `The testing environment is live! You can [view it here](https://${{env.env_name}}.example.com/${{env.MODIFIED_FILENAME}}).`
+            })
+      
