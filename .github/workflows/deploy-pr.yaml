@@ -92,5 +92,5 @@ jobs:
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           body: |
-            This comment has been updated!
+           The testing environment is live! You can [view it here](https://${{ env.env_name }}.example22.com/${{ env.MODIFIED_FILENAME }}).
           reactions: hooray
