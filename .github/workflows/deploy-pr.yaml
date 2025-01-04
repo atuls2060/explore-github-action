@@ -43,8 +43,10 @@ jobs:
   
       - name: Post Deployment URL as Comment
         uses: actions/github-script@v6
+        
         with:
-            script: |
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
               const url = "${{ steps.set-url.outputs.url }}";
               github.issues.createComment({
                 issue_number: context.payload.pull_request.number,
