@@ -62,7 +62,7 @@ jobs:
           MATCHED_FILES=$(echo "$FILES" | grep -E "$PATTERN" || true)
 
           if [ -z "$MATCHED_FILES" ]; then
-            echo "MODIFIED_FILENAME=" >> $GITHUB_ENV  # Set empty variable
+            echo "MODIFIED_FILENAME=not found" >> $GITHUB_ENV  # Set empty variable
           else
             BASENAME=$(basename "$MATCHED_FILES" | sed 's/\(.*\)\..*/\1/' | sed 's/\./\//g')
             echo "MODIFIED_FILENAME=$BASENAME" >> $GITHUB_ENV
