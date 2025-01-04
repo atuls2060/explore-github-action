@@ -58,6 +58,16 @@ jobs:
           # Compare the current PR branch with the main branch
           FILES=$(git diff --name-only origin/main..${{ github.head_ref }})
           echo "Changed files: $FILES"
+           PATTERN="^src/routes"
+
+          # Filter the file names based on the pattern
+          MATCHED_FILES=$(echo "$FILES" | grep -E "$PATTERN")
+
+          if [ -z "$MATCHED_FILES" ]; then
+            echo "No files starting with 'src/routes' were found."
+          else
+            echo "Files starting with 'src/routes': $MATCHED_FILES"
+          fi
 
       - uses: actions/github-script@v7
         with:
