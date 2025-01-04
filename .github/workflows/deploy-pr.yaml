@@ -45,28 +45,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.event.workflow_run.head_branch }}
+          ref: ${{ github.head_ref }}
           fetch-depth: 1 
         
 
       - name: Read the single file in the folder
         id: read_file
-       
         run: |
-          # Fetch all commits of the PR branch and get the base commit if needed
-          base_commit="${{ github.event.pull_request.base.sha }}"
-          pr_commit="${{ github.sha }}"
-          
-          # Get a list of files in the specific folder between the base commit and PR commit
-          files=$(git diff --name-only $base_commit $pr_commit | grep '^folder_name/')
-          
-          # Check if any files exist in that folder
-          if [ -z "$files" ]; then
-            echo "No files found in the folder."
-          else
-            echo "Files in folder_name:"
-            echo "$files"
-          fi
+          # Get the list of files changed between the PR branch and main branch
+          git diff --name-only origin/main...${{ github.head_ref }}
 
       - uses: actions/github-script@v7
         with:
