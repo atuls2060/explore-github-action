@@ -55,7 +55,7 @@ jobs:
             
             // Check if files are found and process the first file
             if (files.length === 0) {
-              console.log("No files changed in the PR.");
+              core.info("No files changed in the PR.");
               return;
             }
 
@@ -65,8 +65,8 @@ jobs:
             // Remove the extension and replace '.' with '/'
             const modifiedFile = firstFile.replace(/\.(.*)$/, '').replace(/\./g, '/');
 
-            console.log(`Modified file: ${firstFile}`);
-            console.log(`Modified file path: ${modifiedFile}`);
+            core.info(`Modified file: ${firstFile}`);
+            core.info(`Modified file path: ${modifiedFile}`);
 
             return modifiedFile;
       
@@ -77,7 +77,7 @@ jobs:
             const modifiedFile = "${{ steps.pr_files.outputs.result }}";
             
             if (!modifiedFile) {
-              console.log("No modified file to comment on.");
+              core.info("No modified file to comment on.");
               return;
             }
 
