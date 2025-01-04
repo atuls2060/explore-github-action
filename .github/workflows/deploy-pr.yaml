@@ -49,11 +49,14 @@ jobs:
           fetch-depth: 1 
         
 
-      - name: Read the single file in the folder
-        id: read_file
+      - name: Fetch main branch
         run: |
-          # Get the list of files changed between the PR branch and main branch
-          git diff --name-only origin/main...${{ github.head_ref }}
+          git fetch origin main
+
+      - name: Get file differences
+        run: |
+          # Compare the current PR branch with the main branch
+          git diff --name-only origin/main..${{ github.head_ref }}
 
       - uses: actions/github-script@v7
         with:
