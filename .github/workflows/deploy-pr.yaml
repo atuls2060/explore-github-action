@@ -16,6 +16,10 @@ on:
           required: true
           type: string
 
+permissions:
+  pull-requests: write
+  contents: read
+
 jobs:
   deploy-pr:
     runs-on: ubuntu-latest
