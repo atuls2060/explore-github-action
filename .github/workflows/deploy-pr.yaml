@@ -56,7 +56,6 @@ jobs:
         run: |
           # Compare the current PR branch with the main branch
           FILES=$(git diff --name-only origin/main..${{ github.head_ref }})
-          echo "$FILES"
           PATTERN="^src/routes"
 
           # Filter the file names based on the pattern
