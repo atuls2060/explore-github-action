@@ -55,7 +55,8 @@ jobs:
           FOLDER_PATH="src/routes"
           
           # Find the single file in the folder
-          FILE=$(ls "$FOLDER_PATH" | head -n 1)
+          
+          FILE=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^src/routes')
 
           # Check if a file is found
           if [ -z "$FILE" ]; then
