@@ -39,6 +39,7 @@ jobs:
           echo "Deploying to environment:${{inputs.pr_state}} ${{ env.env_name }}.atulsingh.dev"
   
       - name: Read the single file in the folder
+        id: read_file
         run: |
               FOLDER_PATH="src/routes"
       
@@ -65,6 +66,6 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `The testing environment is live! You can [view it here](https://${{env.env_name}}.example.com/${{env.MODIFIED_FILENAME}}).`
+              body: `The testing environment is live! You can [view it here](https://${{env.env_name}}.example.com/${{read_file.MODIFIED_FILENAME}}).`
             })
       
