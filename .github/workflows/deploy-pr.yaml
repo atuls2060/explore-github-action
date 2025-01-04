@@ -59,7 +59,7 @@ jobs:
           PATTERN="^src/routes"
 
           # Filter the file names based on the pattern
-          MATCHED_FILES=$(echo "$FILES" | grep -E "$PATTERN")
+          MATCHED_FILES=$(echo "$FILES" | grep -E "$PATTERN" || true)
 
           if [ -z "$MATCHED_FILES" ]; then
             echo "MODIFIED_FILENAME=" >> $GITHUB_ENV  # Set empty variable
