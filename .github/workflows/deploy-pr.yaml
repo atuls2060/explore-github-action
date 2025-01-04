@@ -45,6 +45,21 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `The testing environment is live! You can [view it here](https://static-pages-remix-${{env.env_name}}-stag.d11dev.com/)`
+              body: `The testing environment is live! You can [view it here](https://${{env.env_name}}.example.com/)`
             })
+
+      - name: Read the single file in the folder
+        run: |
+              FOLDER_PATH="/src/routes"
+      
+              # Find the single file in the folder
+              FILE=$(ls "$FOLDER_PATH" | head -n 1)
+      
+              # Check if a file is found
+              if [ -z "$FILE" ]; then
+                echo "No file found in the folder."
+              else
+                echo "Reading file: $FILE"
+                cat "$FOLDER_PATH/$FILE"
+              fi
               
