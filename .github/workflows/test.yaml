@@ -1,9 +1,79 @@
-- uses: actions/github-script@v7
-with:
-  script: |
-    github.rest.issues.createComment({
-      issue_number: context.issue.number,
-      owner: context.repo.owner,
-      repo: context.repo.repo,
-      body: `The testing environment is live! You can [view it here](https://${{ env.env_name }}.example22.com/${{ env.MODIFIED_FILENAME }}).`
-    })
+name: Deploy Pull Request
+
+on:
+  workflow_call:
+    inputs:
+      pr_number:
+        description: 'Pull Request Number'
+        required: true
+        type: number
+      branch_name:
+        description: 'Source Branch Name'
+        required: true
+        type: string
+      pr_state:
+        description: 'Pull Request State (e.g., open, closed)'
+        required: true
+        type: string
+
+jobs:
+  deploy-pr:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up environment name
+        id: env
+        run: echo "env_name=sp-${{ inputs.pr_number }}" >> $GITHUB_ENV
+
+      - name: Create Environment
+        id: create-env
+        if: ${{ inputs.pr_state == 'opened' }}
+        run: echo "creating environment ${{ inputs.pr_state }}"
+
+      - name: Deploy to Environment
+        run: |
+          echo "Deploying to environment: ${{ inputs.pr_state }} ${{ env.env_name }}.atulsingh.dev"
+
+  create-comment:
+    runs-on: ubuntu-latest
+    needs: deploy-pr
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}  
+        
+
+      - name: Fetch main branch
+        run: |
+          git fetch origin main
+
+      - name: Get file differences
+        run: |
+          # Compare the current PR branch with the main branch
+          FILES=$(git diff --name-only origin/main..${{ github.head_ref }})
+          PATTERN="^src/routes"
+
+          # Filter the file names based on the pattern
+          MATCHED_FILES=$(echo "$FILES" | grep -E "$PATTERN" || true)
+
+          if [ -z "$MATCHED_FILES" ]; then
+            echo "MODIFIED_FILENAME=" >> $GITHUB_ENV  # Set empty variable
+          else
+            BASENAME=$(basename "$MATCHED_FILES" | sed 's/\(.*\)\..*/\1/' | sed 's/\./\//g')
+            echo "MODIFIED_FILENAME=$BASENAME" >> $GITHUB_ENV
+          fi
+
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `The testing environment is live! You can [view it here](https://${{ env.env_name }}.example22.com/${{ env.MODIFIED_FILENAME }}).`
+            })

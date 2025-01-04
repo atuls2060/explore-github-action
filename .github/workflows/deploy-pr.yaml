@@ -46,14 +46,14 @@ jobs:
         uses: tj-actions/changed-files@v45
         id: files
         with:
-          files: 'src.routes/**'  # Pattern to match files starting with 'src.routes'
+          files: 'src/routes/**'  # Pattern to match files starting with 'src/routes'
     
       - name: Replace . with / and set output variable
         run: |
           # Get the changed files and replace '.' with '/'
           CHANGED_FILES="${{ steps.files.outputs.changed_files }}"
           if [ -z "$CHANGED_FILES" ]; then
-            echo "No files starting with 'src.routes' were found."
+            echo "No files starting with 'src/routes' were found."
             echo "MODIFIED_FILENAME=" >> $GITHUB_ENV  # Set an empty MODIFIED_FILENAME
           else
             # Replace '.' with '/' in the paths
