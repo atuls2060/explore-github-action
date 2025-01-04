@@ -1,1 +1,1 @@
-"some content updated as well "
+"some content updated as well"
