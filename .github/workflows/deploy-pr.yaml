@@ -59,7 +59,8 @@ jobs:
               if [ -z "$FILE" ]; then
                 echo "No file found in the folder."
               else
-                BASENAME=$(basename "$FILE" | sed 's/\./\//g')
+                # Remove the extension and replace '.' with '/'
+                BASENAME=$(basename "$FILE" | sed 's/\(.*\)\..*/\1/' | sed 's/\./\//g')
 
                 echo "Original file name: $FILE"
                 echo "Modified file name: $BASENAME"
