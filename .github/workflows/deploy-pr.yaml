@@ -77,11 +77,11 @@ jobs:
 
               **View on browser** 
 
-                [Click here to view the testing environmen](${testingUrl})
+                ${testingUrl}
 
               **View on mobile** 
 
-                \https://www.dream11.com/extlink?url=${testingUrl}\
+                \ [](https://www.dream11.com/extlink?url=${testingUrl}) \
                 `
             })
 
