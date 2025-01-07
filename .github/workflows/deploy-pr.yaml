@@ -81,7 +81,7 @@ jobs:
 
               **View on mobile** 
 
-                \`https://www.dream11.com/extlink?url=${testingUrl}\`
+                \`[](https://www.dream11.com/extlink?url=${testingUrl})\`
                 `
             })
 
