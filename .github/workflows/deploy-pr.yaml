@@ -73,12 +73,12 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `#The testing environment is live!
+              body: `# The testing environment is live!
 
                     - Bullet point 1 View on browser 
                       ${testingUrl}
                     
-                    - View on Mobile
+                      ** View on Mobile **
                       https://www.dream11.com/extlink?url=${testingUrl}
                     `
             })
