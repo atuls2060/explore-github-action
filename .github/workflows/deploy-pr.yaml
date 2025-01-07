@@ -76,7 +76,11 @@ jobs:
               body: `**The testing environment is live!**
               **View on browser** 
 
-                          \`https://.example22.com/campaigns/hardin-crorepati\`
+                  \`https://.example22.com/campaigns/hardin-crorepati\`
+
+              **View on mobile** 
+
+                \`https://.example22.com/campaigns/hardin-crorepati\`
                     `
             })
 
