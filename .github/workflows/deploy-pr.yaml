@@ -80,7 +80,7 @@ jobs:
 
               **View on mobile** 
 
-                \`https://.example22.com/campaigns/hardin-crorepati\${testingUrl}`
+                \`https://.example22.com/campaigns/hardin-crorepati/${testingUrl}\`
                     `
             })
 
