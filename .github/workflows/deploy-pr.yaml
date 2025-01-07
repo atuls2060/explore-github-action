@@ -76,7 +76,7 @@ jobs:
               body: `**The testing environment is live!**
               **View on browser** 
 
-                  \`${testingUrl}\`
+                  \${testingUrl}\
 
               **View on mobile** 
 
