@@ -76,9 +76,11 @@ jobs:
               body: `**The testing environment is live!**
 
                       **View on browser** 
+
                       \`https://.example22.com/campaigns/hardin-crorepati\`
 
                       **View on Mobile**
+                      
                       \`https://www.dream11.com/extlink?url=https://.example22.com/campaigns/hardin-crorepati\`
                     `
             })
