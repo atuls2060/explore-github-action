@@ -77,7 +77,7 @@ jobs:
 
               **View on browser** 
 
-                [](${testingUrl})
+                [Click here to view the testing environmen](${testingUrl})
 
               **View on mobile** 
 
