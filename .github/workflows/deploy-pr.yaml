@@ -65,19 +65,21 @@ jobs:
             echo "ROUTE_NAME=$BASENAME" >> $GITHUB_ENV
           fi
 
-      - uses: actions/github-script@v7
-        with:
-          script: |
-            const testingUrl = `https://${{ env.env_name }}.example22.com/${{ env.ROUTE_NAME }}`;
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `The testing environment is live!
-                     - Bullet point 1 View on browser 
-                       testingUrl
-                     
-                     - Bullet point 2 View on Mobile
-                       https://www.dream11.com/extlink?url=testingUrl
-                     `
-            })
+          - uses: actions/github-script@v7
+            with:
+              script: |
+                const testingUrl = `https://${{ env.env_name }}.example22.com/${{ env.ROUTE_NAME }}`;
+                github.rest.issues.createComment({
+                  issue_number: context.issue.number,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  body: `The testing environment is live!
+                        - Bullet point 1 View on browser 
+                          ${testingUrl}
+                        
+                        - Bullet point 2 View on Mobile
+                          https://www.dream11.com/extlink?url=${testingUrl}
+                        `
+                })
+
+        
