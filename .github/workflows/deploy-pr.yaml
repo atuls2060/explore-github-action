@@ -77,11 +77,11 @@ jobs:
 
               **View on browser** 
 
-              \${testingUrl}\
+              \https://.example22.com/campaigns/hardin-crorepati\
 
               **View on mobile** 
 
-              \https://www.dream11.com/extlink?url=${testingUrl}\
+              \https://.example22.com/campaigns/hardin-crorepati\
                 
                 `
             })
