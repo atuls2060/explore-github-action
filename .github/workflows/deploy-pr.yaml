@@ -74,15 +74,14 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: `**The testing environment is live!**
-              
               **View on browser** 
 
-                  \ `${testingUrl}` \
+                  \`${testingUrl}\`
 
               **View on mobile** 
 
-                \`https://.example22.com/campaigns/hardin-crorepati/${testingUrl}\`
-                    `
+                \`https://www.dream11.com/extlink?url=${testingUrl}\`
+                `
             })
 
         
