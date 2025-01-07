@@ -75,11 +75,12 @@ jobs:
               repo: context.repo.repo,
               body: `# The testing environment is live!
 
-                    - Bullet point 1 View on browser 
-                      ${testingUrl}
+                    **View on browser** 
+                    `https://.example22.com/campaigns/hardin-crorepati`
+                  
+                    **View on Mobile**
+                    `https://www.dream11.com/extlink?url=https://.example22.com/campaigns/hardin-crorepati`
                     
-                      ** View on Mobile **
-                      https://www.dream11.com/extlink?url=${testingUrl}
                     `
             })
 
