@@ -1,1 +1,1 @@
-"har din crorepati campaign"
+console.log("har din crorepati campaign")
