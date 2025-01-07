@@ -1,1 +1,1 @@
-console.log("streak rout")
+console.log("streak rout  ")
