@@ -23,7 +23,12 @@ jobs:
       - name: Delete Pr environment
         run: |
           echo "Deleted : ${{ env.env_name }}.atulsingh.dev"
+          
+      - name: Get Artifact Version
+        id: artifact
+        run: |
+          echo "artifact_version=${"version"  .odin/static-pages-remix/application-spec.yml | awk -F ": " '{print $2}' | grep -o '^[0-9]\+\.[0-9]\+\.[0-9]\+' |  awk -F. '{print $1"."$2"."$3-1}'}" >> $GITHUB_ENV
 
       - name: Deploy to Environment
         run: |
-          echo "Deploying to environment: www.atulsingh.dev"
+          echo "Deploying to environment: www.atulsingh.dev $artifact_version"
