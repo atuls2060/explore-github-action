@@ -19,7 +19,8 @@ on:
 jobs:
   deploy-pr:
     runs-on: ubuntu-latest
-
+    outputs:
+      env_name: ${{ steps.env.outputs.env_name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -28,7 +29,7 @@ jobs:
         id: env
         run: |
            echo "env_name=sp-${{ inputs.pr_number }}" >> $GITHUB_ENV
-           echo "::set-output name=env_name::sp-${{ inputs.pr_number }}"
+           echo "env_name=sp-${{ inputs.pr_number }}" >> $GITHUB_OUTPUT
 
       - name: Create Environment
         id: create-env
