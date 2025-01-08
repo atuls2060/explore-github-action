@@ -47,25 +47,22 @@ jobs:
         with:
           ref: ${{ github.head_ref }}  
         
-
       - name: Fetch main branch
         run: |
           git fetch origin main
 
-      - name: Get file differences
+      - name: Create route name
         run: |
-          # Compare the current PR branch with the main branch
           FILES=$(git diff --name-only origin/main..${{ github.head_ref }})
           PATTERN="^src/routes"
 
-          # Filter the file names based on the pattern
           MATCHED_FILES=$(echo "$FILES" | grep -E "$PATTERN" || true)
 
           if [ -z "$MATCHED_FILES" ]; then
-            echo "MODIFIED_FILENAME=" >> $GITHUB_ENV  # Set empty variable
+            echo "ROUTE_NAME=" >> $GITHUB_ENV  # Set empty If no route files are found
           else
             BASENAME=$(basename "$MATCHED_FILES" | sed 's/\(.*\)\..*/\1/' | sed 's/\./\//g')
-            echo "MODIFIED_FILENAME=$BASENAME" >> $GITHUB_ENV
+            echo "ROUTE_NAME=$BASENAME" >> $GITHUB_ENV
           fi
 
       - uses: actions/github-script@v7
@@ -75,5 +72,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `The testing environment is live! You can [view it here](https://${{ env.env_name }}.example22.com/${{ env.MODIFIED_FILENAME }}).`
+              body: `The testing environment is live! You can [view it here](https://${{ env.env_name }}.example22.com/${{ env.ROUTE_NAME }}).`
             })

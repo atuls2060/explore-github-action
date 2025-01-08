@@ -19,14 +19,16 @@ on:
 jobs:
   deploy-pr:
     runs-on: ubuntu-latest
-
+    outputs:
+      env_name: ${{ steps.env.outputs.env_name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Set up environment name
         id: env
-        run: echo "env_name=sp-${{ inputs.pr_number }}" >> $GITHUB_ENV
+        run: |
+           echo "env_name=sp-${{ inputs.pr_number }}" >> $GITHUB_OUTPUT
 
       - name: Create Environment
         id: create-env
@@ -35,60 +37,54 @@ jobs:
 
       - name: Deploy to Environment
         run: |
-          echo "Deploying to environment: ${{ inputs.pr_state }} ${{ env.env_name }}.atulsingh.dev"
+          echo "Deploying to environment: ${{ inputs.pr_state }} ${{ steps.env.outputs.env_name  }}.atulsingh.dev"
 
   create-comment:
     runs-on: ubuntu-latest
     needs: deploy-pr
 
     steps:
-      - name: Check changed files starting with 'src/routes'
-        uses: tj-actions/changed-files@v45
-        id: files
+      - name: Checkout code
+        uses: actions/checkout@v2
         with:
-          files: 'campaigns'  # Pattern to match files starting with 'src/routes'
-    
-      - name: Replace . with / and set output variable
+          ref: ${{ github.head_ref }}  
+        
+      - name: Fetch main branch
         run: |
-          # Get the changed files and replace '.' with '/'
-          CHANGED_FILES="${{ steps.files.outputs.changed_files }}"
-          if [ -z "$CHANGED_FILES" ]; then
-            echo "No files starting with 'src/routes' were found."
-            echo "MODIFIED_FILENAME=" >> $GITHUB_ENV  # Set an empty MODIFIED_FILENAME
-          else
-            # Replace '.' with '/' in the paths
-            UPDATED_FILES=$(echo "$CHANGED_FILES" | sed 's/\./\//g')
-            echo "MODIFIED_FILENAME=$UPDATED_FILES" >> $GITHUB_ENV  # Set the updated filenames in the environment
-            echo "Changed files starting with 'src/routes': $UPDATED_FILES"
-          fi
-      
-      - name: Display MODIFIED_FILENAME
-        run: |
-          echo "Stored Modified Filename: $MODIFIED_FILENAME"
-    
-    
-      - name: Find Comment
-        uses: peter-evans/find-comment@v1
-        id: fc
-        with:
-          issue-number: ${{ github.event.pull_request.number }}
-          comment-author: 'github-actions[bot]'
-          body-includes: The testing environment is live!
-      
-      - name: Create comment
-        if: steps.fc.outputs.comment-id == ''
-        uses: peter-evans/create-or-update-comment@v1
-        with:
-          issue-number: ${{ github.event.pull_request.number }}
-          body: |
-            The testing environment is live! You can [view it here](https://${{ env.env_name }}.example22.com/${{ env.MODIFIED_FILENAME }}).
-          reactions: rocket
+          git fetch origin main
 
-      - name: Update comment
-        if: steps.fc.outputs.comment-id != ''
-        uses: peter-evans/create-or-update-comment@v1
+      - name: Create route name
+        run: |
+          FILES=$(git diff --name-only origin/main..${{ github.head_ref }})
+          PATTERN="^src/routes"
+
+          MATCHED_FILES=$(echo "$FILES" | grep -E "$PATTERN" || true)
+
+          if [ -z "$MATCHED_FILES" ]; then
+            echo "ROUTE_NAME=" >> $GITHUB_ENV  # Set empty If no route files are found
+          else
+            BASENAME=$(basename "$MATCHED_FILES" | sed 's/\(.*\)\..*/\1/' | sed 's/\./\//g')
+            echo "ROUTE_NAME=$BASENAME" >> $GITHUB_ENV
+          fi
+
+      - uses: actions/github-script@v7
         with:
-          comment-id: ${{ steps.fc.outputs.comment-id }}
-          body: |
-           The testing environment is live! You can [view it here](https://${{ env.env_name }}.example22.com/${{ env.MODIFIED_FILENAME }}).
-          edit-mode: replace
+          script: |
+            const testingUrl = `https://${{ needs.deploy-pr.outputs.env_name }}.example22.com/${{ env.ROUTE_NAME }}`;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `**The testing environment is live!**
+
+              **View on browser** 
+
+                ${testingUrl}
+
+              **View on mobile** 
+
+                \https://www.dream11.com/extlink?url=${testingUrl}\
+                `
+            })
+
+        
