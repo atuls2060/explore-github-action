@@ -20,7 +20,7 @@ jobs:
   deploy-pr:
     runs-on: ubuntu-latest
     outputs:
-      env_name: ${{ steps.env.outputs.env_name }}
+      env_name: ${{ steps.env.env_name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
