@@ -27,7 +27,7 @@ jobs:
       - name: Get Artifact Version
         id: artifact
         run: |
-          echo "artifact_version=${"version"  .odin/static-pages-remix/application-spec.yml | awk -F ": " '{print $2}' | grep -o '^[0-9]\+\.[0-9]\+\.[0-9]\+' |  awk -F. '{print $1"."$2"."$3-1}'}" >> $GITHUB_ENV
+          echo "artifact_version=${"version"  application-spec.yml | awk -F ": " '{print $2}' | grep -o '^[0-9]\+\.[0-9]\+\.[0-9]\+' |  awk -F. '{print $1"."$2"."$3-1}'}" >> $GITHUB_ENV
 
       - name: Deploy to Environment
         run: |
