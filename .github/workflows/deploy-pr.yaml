@@ -26,7 +26,9 @@ jobs:
 
       - name: Set up environment name
         id: env
-        run: echo "env_name=sp-${{ inputs.pr_number }}" >> $GITHUB_ENV
+        run: |
+           echo "env_name=sp-${{ inputs.pr_number }}" >> $GITHUB_ENV
+           echo "::set-output name=env_name::sp-${{ inputs.pr_number }}"
 
       - name: Create Environment
         id: create-env
@@ -36,9 +38,6 @@ jobs:
       - name: Deploy to Environment
         run: |
           echo "Deploying to environment: ${{ inputs.pr_state }} ${{ env.env_name }}.atulsingh.dev"
-
-    outputs:
-      env_name: ${{ steps.env.outputs.env_name }}
 
   create-comment:
     runs-on: ubuntu-latest
