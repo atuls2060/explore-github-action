@@ -1,7 +1,6 @@
 name: Deploy to Prod
-
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
       pr_number:
         description: 'Pull Request Number'
