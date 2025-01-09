@@ -37,7 +37,7 @@ jobs:
 
       - name: Deploy to Environment
         run: |
-          echo "Deploying to environment: ${{ inputs.pr_state }} ${{ steps.env.outputs.env_name  }}.atulsingh.dev"
+          echo "Deploying to environment: ${{ inputs.pr_state }} ${{ steps.env.outputs.env_name  }}.atulsingh.dev ${{ github.actor }}""
 
   create-comment:
     runs-on: ubuntu-latest
