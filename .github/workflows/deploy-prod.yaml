@@ -1,11 +1,12 @@
 name: Deploy to Prod
+
 on:
   workflow_dispatch:
     inputs:
-      pr_number:
-        description: 'Pull Request Number'
-        required: true
-        type: number
+      artifact_version:
+        description: "Artifact version (optional)"
+        required: false
+        default: ""
 
 jobs:
   deploy-prod:
@@ -23,12 +24,16 @@ jobs:
         run: |
           echo "Deleted : ${{ env.env_name }}.atulsingh.dev"
           
-      - name: Get Artifact Version
+      - name: Set Artifact Version
         id: artifact
         run: |
-          ARTIFACT_VERSION=$(grep  "version"  application-spec.yml | awk -F ": " '{print $2}' | grep -o '^[0-9]\+\.[0-9]\+\.[0-9]\+' |  awk -F. '{print $1"."$2"."$3-1}')
-          echo "artifact_version=$ARTIFACT_VERSION" >> $GITHUB_ENV
+          if [ -z "${{ github.event.inputs.artifact_version }}" ]; then
+            ARTIFACT_VERSION=$(grep  "version"  application-spec.yml | awk -F ": " '{print $2}' | grep -o '^[0-9]\+\.[0-9]\+\.[0-9]\+' |  awk -F. '{print $1"."$2"."$3-1}')
+          else
+            ARTIFACT_VERSION=${{ github.event.inputs.artifact_version }}
+          fi
+          echo "ARTIFACT_VERSION=$ARTIFACT_VERSION" >> $GITHUB_ENV
 
       - name: Deploy to Environment
         run: |
-          echo "Deploying to environment: www.atulsingh.dev  ${{ env.artifact_version }}"
+          echo "Deploying to environment: www.atulsingh.dev  ${{ env.ARTIFACT_VERSION }} $ARTIFACT_VERSION""
