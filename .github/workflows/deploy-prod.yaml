@@ -1,7 +1,6 @@
 name: Deploy to Prod
-
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
       pr_number:
         description: 'Pull Request Number'
@@ -16,7 +15,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up environment name # for cleaning up pr environment
+      - name: Set up environment name 
         id: env
         run: echo "env_name=pr-${{inputs.pr_number}}" >> $GITHUB_ENV
 
@@ -27,8 +26,9 @@ jobs:
       - name: Get Artifact Version
         id: artifact
         run: |
-          echo "artifact_version=${grep  "version"  .odin/static-pages-remix/application-spec.yml | awk -F ": " '{print $2}' | grep -o '^[0-9]\+\.[0-9]\+\.[0-9]\+' |  awk -F. '{print $1"."$2"."$3-1}'}" >> $GITHUB_ENV
+          ARTIFACT_VERSION = $(grep  "version"  application-spec.yml | awk -F ": " '{print $2}' | grep -o '^[0-9]\+\.[0-9]\+\.[0-9]\+' |  awk -F. '{print $1"."$2"."$3-1}')
+          echo "artifact_version=$(ARTIFACT_VERSION)" >> $GITHUB_ENV
 
       - name: Deploy to Environment
         run: |
-          echo "Deploying to environment: www.atulsingh.dev $artifact_version"
+          echo "Deploying to environment: www.atulsingh.dev  ${{ env.artifact_version }}"
