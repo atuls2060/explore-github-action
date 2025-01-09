@@ -36,4 +36,4 @@ jobs:
 
       - name: Deploy to Environment
         run: |
-          echo "Deploying to environment: www.atulsingh.dev  ${{ env.ARTIFACT_VERSION }} $ARTIFACT_VERSION"
+          echo "Deploying to environment: www.atulsingh.dev  ${{ env.ARTIFACT_VERSION }} ${{ github.actor }}"
