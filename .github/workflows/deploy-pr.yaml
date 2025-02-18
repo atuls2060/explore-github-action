@@ -21,6 +21,9 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       env_name: ${{ steps.env.outputs.env_name }}
+    env:
+      SECRET_KEY: ${{ github.actor }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -37,8 +40,9 @@ jobs:
 
       - name: Deploy to Environment
         run: |
-          echo "Deploying to environment: ${{ inputs.pr_state }} ${{ steps.env.outputs.env_name  }}.atulsingh.dev ${{ github.actor }}""
+          echo "Deploying to environment: ${{ inputs.pr_state }} ${{ steps.env.outputs.env_name  }}.atulsingh.dev ${{ github.actor }}"
           echo "secret keys ${{ secrets[github.actor] }}"
+          echo ${{ secrets[format('{0}_A', env.SECRET_KEY)] }}
 
   create-comment:
     runs-on: ubuntu-latest
