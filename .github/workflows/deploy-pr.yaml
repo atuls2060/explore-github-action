@@ -42,7 +42,7 @@ jobs:
         run: |
           echo "Deploying to environment: ${{ inputs.pr_state }} ${{ steps.env.outputs.env_name  }}.atulsingh.dev ${{ github.actor }}"
           echo "secret keys ${{ secrets[github.actor] }}"
-          echo "${{ env.SECRET_KEY }} ${{ secrets.ATULS2060 }}"
+          echo "${{ env.SECRET_KEY }} ${{ secrets.ATULS20 }}"
 
   create-comment:
     runs-on: ubuntu-latest
