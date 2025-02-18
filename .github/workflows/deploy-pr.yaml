@@ -22,7 +22,7 @@ jobs:
     outputs:
       env_name: ${{ steps.env.outputs.env_name }}
     env:
-      SECRET_KEY: ${{ github.actor }}
+      SECRET_KEY: ${{ github.actor.ToUpper() }}
 
     steps:
       - name: Checkout code
